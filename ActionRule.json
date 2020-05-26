@@ -8,14 +8,17 @@
 				"description": "The name of the action rule"
 			}
         },
-        "actionGroupId": {
-            "defaultValue":"/subscriptions/db99463c-2a00-433c-a39b-f63083b719a4/resourcegroups/default-activitylogalerts/providers/microsoft.insights/actiongroups/teamsintergrate",
-            "type": "string"},
+        "actionGroupId": {            
+            "type": "string",
+             "metadata": {
+				"description": "Action Group ResourceId we are calling in action rule"
+			}
+            },
             "severity": {"type": "array",
          "allowedValues": ["Sev0","Sev1","Sev2","Sev3","Sev4"],
          "defaultValue":["Sev0","Sev1"],
          "metadata": {
-				"description": "Array of Severities to filter on defaults to Sevo and Sev 1"
+				"description": "Array of Severities to filter on defaults to Sev 0 and Sev 1"
 			}}
          
     },
