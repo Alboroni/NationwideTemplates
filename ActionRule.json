@@ -1,0 +1,56 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "actionRules_name": {
+            "type": "String",
+            "metadata": {
+				"description": "The name of the action rule"
+			}
+        },
+        "actionGroupId": {
+            "defaultValue":"/subscriptions/db99463c-2a00-433c-a39b-f63083b719a4/resourcegroups/default-activitylogalerts/providers/microsoft.insights/actiongroups/teamsintergrate",
+            "type": "string"},
+            "severity": {"type": "array",
+         "allowedValues": ["Sev0","Sev1","Sev2","Sev3","Sev4"],
+         "defaultValue":["Sev0","Sev1"],
+         "metadata": {
+				"description": "Array of Severities to filter on defaults to Sevo and Sev 1"
+			}}
+         
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.AlertsManagement/actionRules",
+            "apiVersion": "2019-05-05-preview",
+            "name": "[parameters('actionRules_name')]",
+            "location": "global",
+                 "properties": {
+                "status": "Enabled",
+                "actionGroupId":"[parameters('actionGroupId')]",
+                "type": "ActionGroup",
+                
+        "conditions": {
+          "severity": {
+            "operator": "Equals",
+            "values": "[parameters('severity')]"
+          },
+          "monitorService": {
+            "operator": "Equals",
+            "values": [
+              "Platform"
+            ]
+          },
+          "monitorCondition": {
+            "operator": "Equals",
+            "values": [
+              "Fired"
+            ]
+          }
+         
+        }
+            }
+        }
+    ]
+}

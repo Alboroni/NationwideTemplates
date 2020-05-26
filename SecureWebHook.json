@@ -1,0 +1,71 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+                        "type": "String",
+                        "metadata": {
+				"description": "The name of the  secure webhook action group"
+			}
+        },
+       
+        "serviceUri": {
+            "type": "string",
+            "metadata": {
+				"description": "Endpoint of Azure Function we are calling"
+			}
+        },
+        "objectId": {
+            "type": "string",
+            "metadata": {
+				"description": "ObjectId for the Azure AD App regsitration we use to authenticate the function"
+			}
+                },
+                    "tenantId": {
+            "type": "string",
+            "metadata": {
+				"description": "TenantId Azure AD deploying into"
+			}
+                }
+
+
+    },
+    "variables": {},
+    "resources": [
+
+        {
+            "type": "microsoft.insights/actionGroups",
+            "apiVersion": "2019-03-01",
+            "name": "[parameters('name')]",
+            "location": "Global",
+            "tags": {
+                "Parent Business": "Test5"
+            },
+            "properties": {
+                "groupShortName": "[parameters('name')]",
+                "enabled": true,
+                "emailReceivers": [],
+                "smsReceivers": [],
+                "webhookReceivers": [
+                    {
+                        "name": "[parameters('name')]",
+                        "serviceUri": "[parameters('serviceUri')]",
+                        "useCommonAlertSchema": true,
+                        "tenantId": "[parameters('tenantId')]",  
+                        "objectId": "[parameters('objectId')]",          
+                        "identifierUri": "[parameters('serviceUri')]",
+                        "useAadAuth": true
+                    }
+                ],
+                "itsmReceivers": [],
+                "azureAppPushReceivers": [],
+                "automationRunbookReceivers": [],
+                "voiceReceivers": [],
+                "logicAppReceivers": [],
+                "azureFunctionReceivers": []
+            }
+        }
+ 
+
+    ]
+}
